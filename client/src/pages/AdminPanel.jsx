@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { api } from '../api';
 import { useSiteContent } from '../hooks/useSiteContent';
 import { useFilePreview } from '../hooks/useFilePreview';
+import { resizeImage } from '../utils/resizeImage';
 import Sidebar from '../components/admin/Sidebar';
 import ImageField from '../components/admin/ImageField';
 import SocialLinksEditor from '../components/admin/SocialLinksEditor';
@@ -37,6 +38,15 @@ export default function AdminPanel() {
     setForm((f) => ({ ...f, socials: { ...f.socials, [platform]: url } }));
   }
 
+  async function handlePickImage(field, file, sizeOptions) {
+    try {
+      const resized = await resizeImage(file, sizeOptions);
+      setFiles((f) => ({ ...f, [field]: resized }));
+    } catch {
+      setFiles((f) => ({ ...f, [field]: file }));
+    }
+  }
+
   async function handleSave(e) {
     e.preventDefault();
     setSaveError('');
@@ -64,7 +74,14 @@ export default function AdminPanel() {
       await reload();
       setSavedAt(Date.now());
     } catch (err) {
-      setSaveError(err.response?.data?.error || 'No se pudieron guardar los cambios.');
+      const apiError = err.response?.data?.error;
+      const message =
+        typeof apiError === 'string'
+          ? apiError
+          : err.response?.status === 413
+          ? 'Las imágenes son demasiado pesadas incluso después de reducirlas. Prueba con fotos más livianas.'
+          : 'No se pudieron guardar los cambios.';
+      setSaveError(message);
     } finally {
       setSaving(false);
     }
@@ -112,7 +129,7 @@ export default function AdminPanel() {
               previewUrl={logoPreview}
               buttonLabel="Seleccionar imagen"
               rounded="rounded-full"
-              onChange={(file) => setFiles((f) => ({ ...f, logo: file }))}
+              onChange={(file) => handlePickImage('logo', file, { maxWidth: 500, maxHeight: 500, format: 'image/png' })}
             />
 
             <div>
@@ -148,7 +165,7 @@ export default function AdminPanel() {
               aiPrompt="Fotografía profesional y realista de [tu producto o el ambiente de tu negocio], iluminación cálida, alta resolución, formato horizontal panorámico 1600x900 px, espacio libre y oscuro del lado izquierdo para colocar texto encima"
               previewUrl={heroPreview}
               buttonLabel="Cambiar imagen"
-              onChange={(file) => setFiles((f) => ({ ...f, heroImage: file }))}
+              onChange={(file) => handlePickImage('heroImage', file, { maxWidth: 1600, maxHeight: 900 })}
             />
 
             <ImageField
@@ -158,7 +175,7 @@ export default function AdminPanel() {
               aiPrompt="Diseño de flyer promocional para [tu producto o servicio], formato 4:3 (1200x900 px), incluye el texto '[nombre de la promoción]' y el precio '[S/ XX.XX]', fondo oscuro elegante, tipografía dorada, estilo profesional y comercial"
               previewUrl={promo1Preview}
               buttonLabel="Cambiar imagen"
-              onChange={(file) => setFiles((f) => ({ ...f, promo1: file }))}
+              onChange={(file) => handlePickImage('promo1', file, { maxWidth: 1200, maxHeight: 900 })}
             />
 
             <ImageField
@@ -168,7 +185,7 @@ export default function AdminPanel() {
               aiPrompt="Diseño de flyer promocional para [tu producto o servicio], formato 4:3 (1200x900 px), incluye el texto '[nombre de la promoción]' y el precio '[S/ XX.XX]', fondo oscuro elegante, tipografía dorada, estilo profesional y comercial"
               previewUrl={promo2Preview}
               buttonLabel="Cambiar imagen"
-              onChange={(file) => setFiles((f) => ({ ...f, promo2: file }))}
+              onChange={(file) => handlePickImage('promo2', file, { maxWidth: 1200, maxHeight: 900 })}
             />
 
             <SocialLinksEditor socials={form.socials} onChange={updateSocial} />
