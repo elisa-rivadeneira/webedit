@@ -107,6 +107,8 @@ export default function AdminPanel() {
             <ImageField
               label="Logo"
               helper="Recomendado: imagen en formato PNG y fondo transparente."
+              sizeHint="Tamaño ideal: 500 × 500 px (cuadrada)"
+              aiPrompt="Logo minimalista y profesional para el negocio [nombre de tu negocio], diseño plano, fondo transparente, colores dorado y crema, estilo elegante y sencillo, formato cuadrado 500x500 px"
               previewUrl={logoPreview}
               buttonLabel="Seleccionar imagen"
               rounded="rounded-full"
@@ -142,6 +144,8 @@ export default function AdminPanel() {
             <ImageField
               label="Imagen principal"
               helper="Foto de ambiente o producto que se muestra de fondo en la sección principal."
+              sizeHint="Tamaño ideal: 1600 × 900 px (horizontal, formato panorámico)"
+              aiPrompt="Fotografía profesional y realista de [tu producto o el ambiente de tu negocio], iluminación cálida, alta resolución, formato horizontal panorámico 1600x900 px, espacio libre y oscuro del lado izquierdo para colocar texto encima"
               previewUrl={heroPreview}
               buttonLabel="Cambiar imagen"
               onChange={(file) => setFiles((f) => ({ ...f, heroImage: file }))}
@@ -150,6 +154,8 @@ export default function AdminPanel() {
             <ImageField
               label="Promoción 1"
               helper="Sube una imagen completa de tu promoción. La imagen ya debe incluir el diseño, texto y precio."
+              sizeHint="Tamaño ideal: 1200 × 900 px (formato 4:3)"
+              aiPrompt="Diseño de flyer promocional para [tu producto o servicio], formato 4:3 (1200x900 px), incluye el texto '[nombre de la promoción]' y el precio '[S/ XX.XX]', fondo oscuro elegante, tipografía dorada, estilo profesional y comercial"
               previewUrl={promo1Preview}
               buttonLabel="Cambiar imagen"
               onChange={(file) => setFiles((f) => ({ ...f, promo1: file }))}
@@ -158,6 +164,8 @@ export default function AdminPanel() {
             <ImageField
               label="Promoción 2"
               helper="Sube una imagen completa de tu promoción. La imagen ya debe incluir el diseño, texto y precio."
+              sizeHint="Tamaño ideal: 1200 × 900 px (formato 4:3)"
+              aiPrompt="Diseño de flyer promocional para [tu producto o servicio], formato 4:3 (1200x900 px), incluye el texto '[nombre de la promoción]' y el precio '[S/ XX.XX]', fondo oscuro elegante, tipografía dorada, estilo profesional y comercial"
               previewUrl={promo2Preview}
               buttonLabel="Cambiar imagen"
               onChange={(file) => setFiles((f) => ({ ...f, promo2: file }))}

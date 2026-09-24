@@ -1,8 +1,28 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
-export default function ImageField({ label, helper, previewUrl, buttonLabel, onChange, rounded = 'rounded-lg' }) {
+export default function ImageField({
+  label,
+  helper,
+  sizeHint,
+  aiPrompt,
+  previewUrl,
+  buttonLabel,
+  onChange,
+  rounded = 'rounded-lg',
+}) {
   const inputRef = useRef(null);
+  const [copied, setCopied] = useState(false);
   const previewSize = rounded === 'rounded-full' ? 'h-20 w-20' : 'h-20 w-28';
+
+  async function copyPrompt() {
+    try {
+      await navigator.clipboard.writeText(aiPrompt);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Si el navegador bloquea el portapapeles, el texto sigue visible para copiarlo a mano.
+    }
+  }
 
   return (
     <div>
@@ -27,6 +47,9 @@ export default function ImageField({ label, helper, previewUrl, buttonLabel, onC
             {buttonLabel}
           </button>
           {helper && <p className="mt-2 text-xs text-ink/50">{helper}</p>}
+          {sizeHint && (
+            <p className="mt-1 text-xs font-medium text-ink/60">📐 {sizeHint}</p>
+          )}
         </div>
 
         <input
@@ -41,6 +64,26 @@ export default function ImageField({ label, helper, previewUrl, buttonLabel, onC
           }}
         />
       </div>
+
+      {aiPrompt && (
+        <div className="mt-2 rounded-lg border border-dashed border-gold/40 bg-gold/5 p-3">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold text-ink/70">
+                💡 Prompt sugerido para pedirle esta imagen a una IA:
+              </p>
+              <p className="mt-1 text-xs italic text-ink/60">"{aiPrompt}"</p>
+            </div>
+            <button
+              type="button"
+              onClick={copyPrompt}
+              className="shrink-0 rounded-md border border-ink/15 bg-white px-2.5 py-1 text-xs font-medium text-ink/70 transition hover:bg-ink/5"
+            >
+              {copied ? '¡Copiado!' : 'Copiar'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
