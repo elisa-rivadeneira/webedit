@@ -165,7 +165,7 @@ export default function AdminPanel() {
               aiPrompt="Fotografía profesional y realista de [tu producto o el ambiente de tu negocio], iluminación cálida, alta resolución, formato horizontal panorámico 1600x900 px, espacio libre y oscuro del lado izquierdo para colocar texto encima"
               previewUrl={heroPreview}
               buttonLabel="Cambiar imagen"
-              onChange={(file) => handlePickImage('heroImage', file, { maxWidth: 1600, maxHeight: 900 })}
+              onChange={(file) => handlePickImage('heroImage', file, { maxWidth: 1600, maxHeight: 900, format: 'image/jpeg' })}
             />
 
             <ImageField
@@ -175,7 +175,7 @@ export default function AdminPanel() {
               aiPrompt="Diseño de flyer promocional para [tu producto o servicio], formato 4:3 (1200x900 px), incluye el texto '[nombre de la promoción]' y el precio '[S/ XX.XX]', fondo oscuro elegante, tipografía dorada, estilo profesional y comercial"
               previewUrl={promo1Preview}
               buttonLabel="Cambiar imagen"
-              onChange={(file) => handlePickImage('promo1', file, { maxWidth: 1200, maxHeight: 900 })}
+              onChange={(file) => handlePickImage('promo1', file, { maxWidth: 1200, maxHeight: 900, format: 'image/jpeg' })}
             />
 
             <ImageField
@@ -185,7 +185,7 @@ export default function AdminPanel() {
               aiPrompt="Diseño de flyer promocional para [tu producto o servicio], formato 4:3 (1200x900 px), incluye el texto '[nombre de la promoción]' y el precio '[S/ XX.XX]', fondo oscuro elegante, tipografía dorada, estilo profesional y comercial"
               previewUrl={promo2Preview}
               buttonLabel="Cambiar imagen"
-              onChange={(file) => handlePickImage('promo2', file, { maxWidth: 1200, maxHeight: 900 })}
+              onChange={(file) => handlePickImage('promo2', file, { maxWidth: 1200, maxHeight: 900, format: 'image/jpeg' })}
             />
 
             <SocialLinksEditor socials={form.socials} onChange={updateSocial} />
