@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
     res.json(await getContent());
   } catch (e) {
     console.error('GET /api/content failed:', e);
-    res.status(500).json({ error: 'No se pudo cargar el contenido', detail: e.message });
+    res.status(500).json({ error: 'No se pudo cargar el contenido' });
   }
 });
 
